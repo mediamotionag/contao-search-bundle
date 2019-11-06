@@ -41,7 +41,7 @@ class LoadDataContainerListener
         {
             $dca = &$GLOBALS['TL_DCA']['tl_module'];
 
-            $dca['palettes']['search'] = str_replace('rootPage', 'rootPage,pageMode,filterPages,addPageDepth', $dca['palettes']['search']);
+            $dca['palettes']['search'] = str_replace('rootPage', 'rootPage;{search_filter_legend},pageMode,filterPages,addPageDepth', $dca['palettes']['search']);
 
             $fields        = [
                 'pageMode'     => [
@@ -50,11 +50,14 @@ class LoadDataContainerListener
                     'inputType' => 'radio',
                     'options'   => ['exclude', 'include'],
                     'default'   => 'exclude',
-                    'reference' => &$GLOBALS['TL_LANG']['tl_module'],
+                    'reference' => &$GLOBALS['TL_LANG']['tl_module']['pageMode'],
                     'eval'      => ['tl_class' => 'w50'],
                     'sql'       => "varchar(32) NOT NULL default 'exclude'",
                 ],
-                'filterPages'  => $dca['fields']['pages'],
+                'filterPages'  => array_merge_recursive([
+                    'label'     => &$GLOBALS['TL_LANG']['tl_module']['filterPages'],
+                    'eval'      => ['tl_class' => 'clr'],
+                ], $dca['fields']['pages']),
                 'addPageDepth' => [
                     'label'     => &$GLOBALS['TL_LANG']['tl_module']['addPageDepth'],
                     'exclude'   => true,
