@@ -1,8 +1,8 @@
 {
-  "name": "heimrichhannot/contao-traffic-lines-bundle",
+  "name": "heimrichhannot/contao-search-bundle",
   "type": "contao-bundle",
-  "description": "Contao 4 traffic lines bundle",
-  "license": "proprietary",
+  "description": "This bundle contains enhancements for Contao Search.",
+  "license": "LGPL-3.0-or-later",
   "require": {
     "php": "^7.1",
     "contao/core-bundle": "^4.4"
