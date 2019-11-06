@@ -9,16 +9,22 @@
  */
 
 
-namespace HeimrichHannot\SearchBundle;
+namespace HeimrichHannot\SearchBundle\ContentElement;
 
 
 use Contao\ContentHyperlink;
 use Contao\Input;
 use Contao\System;
 
-class RelatedSearchElement extends ContentHyperlink
+class RelatedSearchLinkElement extends ContentHyperlink
 {
     const TYPE = 'related_search_link';
+
+    /**
+     * Template
+     * @var string
+     */
+    protected $strTemplate = 'ce_related_search_link';
 
     protected function compile()
     {

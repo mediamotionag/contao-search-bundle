@@ -10,4 +10,4 @@
 
 $lang = &$GLOBALS['TL_LANG'];
 
-$lang['CTE'][\HeimrichHannot\SearchBundle\RelatedSearchElement::TYPE][0] = 'Verwandte Suche Link';
+$lang['CTE'][\HeimrichHannot\SearchBundle\ContentElement\RelatedSearchLinkElement::TYPE][0] = 'Verwandte Suche Link';

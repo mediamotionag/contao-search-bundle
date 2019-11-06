@@ -10,4 +10,4 @@
 
 $dc = &$GLOBALS['TL_DCA']['tl_content'];
 
-$dc['palettes'][\HeimrichHannot\SearchBundle\RelatedSearchElement::TYPE] = $dc['palettes']['hyperlink'];
+$dc['palettes'][\HeimrichHannot\SearchBundle\ContentElement\RelatedSearchLinkElement::TYPE] = $dc['palettes']['hyperlink'];

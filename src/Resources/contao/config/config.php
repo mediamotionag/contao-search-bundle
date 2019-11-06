@@ -18,4 +18,4 @@ $GLOBALS['TL_HOOKS']['loadDataContainer']['contao-search-bundle'] = [\HeimrichHa
 /**
  * Content Elements
  */
-$GLOBALS['TL_CTE']['links'][\HeimrichHannot\SearchBundle\RelatedSearchElement::TYPE] = \HeimrichHannot\SearchBundle\RelatedSearchElement::class;
+$GLOBALS['TL_CTE']['links'][\HeimrichHannot\SearchBundle\ContentElement\RelatedSearchLinkElement::TYPE] = \HeimrichHannot\SearchBundle\ContentElement\RelatedSearchLinkElement::class;

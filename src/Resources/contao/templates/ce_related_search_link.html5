@@ -1,0 +1,1 @@
+<?php $this->insert('ce_hyperlink', $this->getData()); ?>
