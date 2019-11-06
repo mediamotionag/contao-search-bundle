@@ -8,5 +8,14 @@
  * @license http://www.gnu.org/licences/lgpl-3.0.html LGPL
  */
 
+
+/**
+ * Hooks
+ */
 $GLOBALS['TL_HOOKS']['customizeSearch']['contao-search-bundle'] = [\HeimrichHannot\SearchBundle\EventListener\CustomizeSearchListener::class, 'onCustomizeSearch'];
 $GLOBALS['TL_HOOKS']['loadDataContainer']['contao-search-bundle'] = [\HeimrichHannot\SearchBundle\EventListener\LoadDataContainerListener::class, 'onLoadDataContainer'];
+
+/**
+ * Content Elements
+ */
+$GLOBALS['TL_CTE']['links'][\HeimrichHannot\SearchBundle\RelatedSearchElement::TYPE] = \HeimrichHannot\SearchBundle\RelatedSearchElement::class;
