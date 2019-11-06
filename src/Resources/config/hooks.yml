@@ -1,0 +1,7 @@
+services:
+  _defaults:
+    public: true
+    autowire: true
+
+  HeimrichHannot\SearchBundle\EventListener\CustomizeSearchListener: ~
+  HeimrichHannot\SearchBundle\EventListener\LoadDataContainerListener: ~
