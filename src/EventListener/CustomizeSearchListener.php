@@ -30,7 +30,7 @@ class CustomizeSearchListener
      */
     public function __construct(array $bundleConfig)
     {
-        if (isset($bundleConfig['enableSearchFilter']) && true === $bundleConfig['enableSearchFilter'])
+        if (isset($bundleConfig['enable_search_filter']) && true === $bundleConfig['enable_search_filter'])
         {
             $this->enableFilterSearch = true;
         }

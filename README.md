@@ -11,5 +11,5 @@ This bundle contains enhancements for Contao Search.
 
 ```yaml
 huh_search:
-    enableSearchFilter: true #enable/disable search filter for search module
+    enable_search_filter: true #enable/disable search filter for search module (defaults: true)
 ```

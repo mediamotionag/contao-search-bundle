@@ -17,9 +17,8 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class ContaoSearchBundle extends Bundle
 {
-    protected function createContainerExtension()
+    public function getContainerExtension()
     {
         return new ContaoSearchExtension();
     }
-
 }

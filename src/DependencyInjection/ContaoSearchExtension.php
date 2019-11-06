@@ -29,4 +29,11 @@ class ContaoSearchExtension extends Extension
         $bundleConfig = $this->processConfiguration($configuration, $configs);
         $container->setParameter('huh_search', $bundleConfig);
     }
+
+    public function getAlias()
+    {
+        return 'huh_search';
+    }
+
+
 }

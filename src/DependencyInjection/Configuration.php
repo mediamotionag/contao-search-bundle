@@ -30,10 +30,12 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->booleanNode('enableSearchFilter')->defaultTrue()->end()
+                ->booleanNode('enable_search_filter')->defaultTrue()->end()
             ->end()
         ;
 
         return $treeBuilder;
     }
+
+
 }

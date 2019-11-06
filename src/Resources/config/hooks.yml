@@ -2,8 +2,8 @@ services:
   _defaults:
     public: true
     autowire: true
-  _bind:
-    $bundleConfig: '%huh_search%'
+    bind:
+      $bundleConfig: '%huh_search%'
 
   HeimrichHannot\SearchBundle\EventListener\CustomizeSearchListener: ~
   HeimrichHannot\SearchBundle\EventListener\LoadDataContainerListener: ~
