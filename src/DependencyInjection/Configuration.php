@@ -33,5 +33,7 @@ class Configuration implements ConfigurationInterface
                 ->booleanNode('enableSearchFilter')->defaultTrue()->end()
             ->end()
         ;
+
+        return $treeBuilder;
     }
 }

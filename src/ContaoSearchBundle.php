@@ -12,9 +12,14 @@
 namespace HeimrichHannot\SearchBundle;
 
 
+use HeimrichHannot\SearchBundle\DependencyInjection\ContaoSearchExtension;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class ContaoSearchBundle extends Bundle
 {
+    protected function createContainerExtension()
+    {
+        return new ContaoSearchExtension();
+    }
 
 }
