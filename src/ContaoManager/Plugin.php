@@ -21,7 +21,7 @@ use Contao\ManagerPlugin\Config\ConfigPluginInterface;
 use HeimrichHannot\SearchBundle\ContaoSearchBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 
-class Plugin implements BundlePluginInterface, ConfigPluginInterface
+class Plugin implements BundlePluginInterface
 {
 
     /**
@@ -36,13 +36,5 @@ class Plugin implements BundlePluginInterface, ConfigPluginInterface
              ContaoCoreBundle::class
           ])
         ];
-    }
-
-    /**
-     * Allows a plugin to load container configuration.
-     */
-    public function registerContainerConfiguration(LoaderInterface $loader, array $managerConfig)
-    {
-        $loader->load('@ContaoSearchBundle/Resources/config/hooks.yml');
     }
 }
