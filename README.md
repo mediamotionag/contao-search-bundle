@@ -8,13 +8,14 @@ This bundle contains enhancements for Contao Search.
 ## Features
 * Page filter for search module
 * Related search content element
+* Rebuild search index command
 
 ## Usage
 
 ### Install
 
-1. Install composer bundle   
-    `composer require heimrichhannot/contao-search-bundle`
+1. Install composer bundle: `composer require heimrichhannot/contao-search-bundle`
+1. Optional: Install guzze HTTP client: `composer require guzzlehttp/guzzle` (needed for rebuild search index command)
 1. Enable/Disable features you want in your project config (see chapter configuration) and clear your cache
 1. Update your database
 
@@ -31,6 +32,10 @@ This element is basically the content hyperlink element (also uses the same temp
 
 1. Create a Related search link content element on a page with an search module
 1. Set another page with a search module as target
+
+### Commands
+
+
 
 ## Developers
 

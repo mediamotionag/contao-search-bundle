@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [DEV] - 2020-02-06
+* added RebuildSearchIndexCommand
+
 ## [1.1.2] - 2020-01-08
 * adapted to coding standards
 
