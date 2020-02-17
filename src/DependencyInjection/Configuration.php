@@ -30,7 +30,8 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->booleanNode('enable_search_filter')->defaultTrue()->end()
+                ->booleanNode('enable_search_filter')->defaultTrue()->info("Enable or disable search filter for search module")->end()
+                ->booleanNode('disable_search_indexer')->defaultFalse()->info("Configure whether you want to update the index entry on every request")->end()
             ->end()
         ;
 

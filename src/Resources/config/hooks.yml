@@ -6,4 +6,6 @@ services:
       $bundleConfig: '%huh_search%'
 
   HeimrichHannot\SearchBundle\EventListener\CustomizeSearchListener: ~
+  HeimrichHannot\SearchBundle\EventListener\GeneratePageListener: ~
+  HeimrichHannot\SearchBundle\EventListener\IndexPageListener: ~
   HeimrichHannot\SearchBundle\EventListener\LoadDataContainerListener: ~

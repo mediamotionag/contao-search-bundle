@@ -6,7 +6,7 @@
   "require": {
     "php": "^7.1",
     "contao/core-bundle": "^4.4",
-    "heimrichhannot/contao-utils-bundle": "^2.119"
+    "heimrichhannot/contao-utils-bundle": "^2.134"
   },
   "autoload": {
     "psr-4": {

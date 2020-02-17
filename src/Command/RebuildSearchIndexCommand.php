@@ -31,6 +31,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class RebuildSearchIndexCommand extends AbstractLockedCommand
 {
+    const CRAWL_PAGE_PARAMETER = 'crawlpage';
+
     protected static $defaultName = 'huh:search:index';
     /**
      * @var ContaoFrameworkInterface
@@ -76,7 +78,7 @@ class RebuildSearchIndexCommand extends AbstractLockedCommand
             return 0;
         }
 
-        if (!isset($this->packages['guzzlehttp/guzzle']) || substr($this->packages['guzzlehttp/guzzle'], 0, 1) !== '5') {
+        if (!isset($this->packages['guzzlehttp/guzzle']) || substr($this->packages['guzzlehttp/guzzle'], 0, 1) !== '6') {
             $io->error("Guzzle HTTP client (guzzlehttp/guzzle) is not installed! Please consider the readme!");
             return 0;
 
@@ -145,7 +147,10 @@ class RebuildSearchIndexCommand extends AbstractLockedCommand
                     $progressBar->advance();
                 }
                 $error++;
-            }
+            },
+            'options' => [
+                'query' => [static::CRAWL_PAGE_PARAMETER => 1],
+            ]
         ]);
 
         $promise = $pool->promise();
@@ -170,13 +175,13 @@ class RebuildSearchIndexCommand extends AbstractLockedCommand
             $io->text("Executing getSearchablePages hook.");
         }
 
-        if (isset($GLOBALS['TL_HOOKS']['getSearchablePages']) && \is_array($GLOBALS['TL_HOOKS']['getSearchablePages']))
-        {
-            foreach ($GLOBALS['TL_HOOKS']['getSearchablePages'] as $callback)
-            {
-                $pages = Controller::importStatic($callback[0])->{$callback[1]}($pages);
-            }
-        }
+//        if (isset($GLOBALS['TL_HOOKS']['getSearchablePages']) && \is_array($GLOBALS['TL_HOOKS']['getSearchablePages']))
+//        {
+//            foreach ($GLOBALS['TL_HOOKS']['getSearchablePages'] as $callback)
+//            {
+//                $pages = Controller::importStatic($callback[0])->{$callback[1]}($pages);
+//            }
+//        }
 
         return $pages;
     }
