@@ -1,0 +1,8 @@
+services:
+  _defaults:
+    autowire: true
+    bind:
+      $packages: '%kernel.packages%'
+
+  HeimrichHannot\SearchBundle\Command\RebuildSearchIndexCommand:
+    tags: ['console.command']
