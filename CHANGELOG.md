@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.0.2] - 2020-02-18
+* respect getSearchablePages hook
+* enhanced console output
+
 ## [2.0.1] - 2020-02-18
 * added missing commands.yml
 

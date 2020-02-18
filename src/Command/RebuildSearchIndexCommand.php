@@ -86,7 +86,7 @@ class RebuildSearchIndexCommand extends AbstractLockedCommand
 
         if ($input->hasOption('dry-run') && $input->getOption('dry-run')) {
             $this->dryRun = true;
-            $io->note('Dry run enabled, no data will be changed.');
+            $io->note('Dry run enabled, search table will not be purged.');
             $io->newLine();
         }
 
@@ -105,10 +105,12 @@ class RebuildSearchIndexCommand extends AbstractLockedCommand
         }
 
         $io->text("Found <fg=green>".count($pages)."</> pages.");
-        $io->newLine();
 
         $automator = new Automator();
         if (!$this->dryRun) {
+            if ($io->isVerbose()) {
+                $io->text("Purge the search tables.");
+            }
             $automator->purgeSearchTables();
         }
 
@@ -122,6 +124,9 @@ class RebuildSearchIndexCommand extends AbstractLockedCommand
                 yield new Request('GET', $page);
             }
         };
+        $io->text("Start the search indexer:");
+
+        $io->newLine();
 
         if (!$io->isVeryVerbose())
         {
@@ -175,13 +180,13 @@ class RebuildSearchIndexCommand extends AbstractLockedCommand
             $io->text("Executing getSearchablePages hook.");
         }
 
-//        if (isset($GLOBALS['TL_HOOKS']['getSearchablePages']) && \is_array($GLOBALS['TL_HOOKS']['getSearchablePages']))
-//        {
-//            foreach ($GLOBALS['TL_HOOKS']['getSearchablePages'] as $callback)
-//            {
-//                $pages = Controller::importStatic($callback[0])->{$callback[1]}($pages);
-//            }
-//        }
+        if (isset($GLOBALS['TL_HOOKS']['getSearchablePages']) && \is_array($GLOBALS['TL_HOOKS']['getSearchablePages']))
+        {
+            foreach ($GLOBALS['TL_HOOKS']['getSearchablePages'] as $callback)
+            {
+                $pages = Controller::importStatic($callback[0])->{$callback[1]}($pages);
+            }
+        }
 
         return $pages;
     }
