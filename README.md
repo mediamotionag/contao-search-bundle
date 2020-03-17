@@ -3,11 +3,12 @@
 [![](https://img.shields.io/packagist/v/heimrichhannot/contao-search-bundle.svg)](https://packagist.org/packages/heimrichhannot/contao-search-bundle)
 [![](https://img.shields.io/packagist/dt/heimrichhannot/contao-search-bundle.svg)](https://packagist.org/packages/heimrichhannot/contao-search-bundle)
 
-This bundle contains enhancements for Contao Search.
+This bundle contains enhancements for Contao Search. You can enable or disable all functionality to pick up just the features you need.
 
 ## Features
 * Rebuild search index command for contao versions before 4.9
 * Disable search index update on page visit
+* set maximum number of search terms
 * Page filter for search module
 * Related search content element
 
@@ -19,6 +20,30 @@ This bundle contains enhancements for Contao Search.
 1. Optional: Install guzze HTTP client: `composer require guzzlehttp/guzzle` (needed for rebuild search index command)
 1. Enable/Disable features you want in your project config (see chapter configuration) and clear your cache
 1. Update your database
+
+### Maximum number of search terms
+
+1. Be sure `huh_search.disable_max_keyword_filter` is set to false (is false by default)
+1. Set maximum number of keywords to a value higher than 0 to enable
+
+    ![Search engine module max keyword input](docs/images/screenshot_max_keywords.png)
+    
+1. If you want to output a user notice if the max keyword count is exceeded, select `mod_search_searchbundle` module template or output `$this->maxKeywordsExceededMessage` template variable where you like.
+
+Example: 
+```php
+// mod_search.html5
+
+<?php if ($this->maxKeywordsExceededMessage): ?>
+    <p class="header"><?= $this->maxKeywordsExceededMessage ?></p>
+<?php endif; ?>
+
+<?php if ($this->header): ?>
+    <p class="header"><?= $this->header ?> (<?= $this->duration ?>)</p>
+<?php endif; ?>
+```
+
+1. If you want to customize the message, overwrite the translations keys for `huh_search.module.max_keywords_exceeded_message` (Symfony translations used). `%count%` (number of provided keywords) and `%max%` (max allowed number of keywords) are provided as placeholder values.
 
 ### Filter your search results by page
 
@@ -66,6 +91,10 @@ huh_search:
     # Enable or disable search filter for search module
     enable_search_filter: true
 
+    # Enable or disable max keyword filter for search module
+    disable_max_keyword_filter: false
+
     # Configure whether you want to update the index entry on every request
     disable_search_indexer: false
+
 ```

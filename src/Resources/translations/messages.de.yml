@@ -1,0 +1,3 @@
+huh_search:
+  module:
+    max_keywords_exceeded_message: "Die maximale Anzahl von Suchbegriffen von %max% wurde überschritten und der Suchbegriff entsprechend gekürzt."

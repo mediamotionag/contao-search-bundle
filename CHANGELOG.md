@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.1.0] - 2020-03-17
+* added option to set maximum keyword count
+
 ## [2.0.2] - 2020-02-18
 * respect getSearchablePages hook
 * enhanced console output

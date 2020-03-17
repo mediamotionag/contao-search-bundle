@@ -18,6 +18,10 @@ class LoadDataContainerListener
      * @var bool
      */
     protected $filterSearch = false;
+    /**
+     * @var bool
+     */
+    private $disableMaxKeywordFilter = false;
 
     /**
      * LoadDataContainerListener constructor.
@@ -29,6 +33,10 @@ class LoadDataContainerListener
         {
             $this->filterSearch = true;
         }
+        if (isset($bundleConfig['disable_max_keyword_filter']) && true === $bundleConfig['disable_max_keyword_filter'])
+        {
+            $this->disableMaxKeywordFilter = true;
+        }
 
     }
 
@@ -37,11 +45,17 @@ class LoadDataContainerListener
      */
     public function onLoadDataContainer(string $table)
     {
-        if ('tl_module' === $table && $this->filterSearch)
-        {
-            $dca = &$GLOBALS['TL_DCA']['tl_module'];
+        if ('tl_module' !== $table) {
+            return;
+        }
 
-            $dca['palettes']['search'] = str_replace('rootPage', 'rootPage;{search_filter_legend},pageMode,filterPages,addPageDepth', $dca['palettes']['search']);
+        $dca = &$GLOBALS['TL_DCA']['tl_module'];
+
+        if ($this->filterSearch)
+        {
+
+
+            $dca['palettes']['search'] = str_replace('{redirect_legend', '{search_filter_legend},pageMode,filterPages,addPageDepth;{redirect_legend', $dca['palettes']['search']);
 
             $fields        = [
                 'pageMode'     => [
@@ -65,6 +79,21 @@ class LoadDataContainerListener
                     'default'   => true,
                     'eval'      => ['tl_class' => 'w50 clr'],
                     'sql'       => "char(1) NOT NULL default '1'",
+                ]
+            ];
+            $dca['fields'] = array_merge($fields, is_array($dca['fields']) ? $dca['fields'] : []);
+        }
+
+        if (!$this->disableMaxKeywordFilter) {
+            $dca['palettes']['search'] = str_replace(',fuzzy', ',maxKeywordCount,fuzzy', $dca['palettes']['search']);
+
+            $fields = [
+                'maxKeywordCount' => [
+                    'label'            => &$GLOBALS['TL_LANG']['tl_module']['maxKeywordCount'],
+                    'exclude'          => true,
+                    'inputType'        => 'text',
+                    'eval'             => array('rgxp'=>'digit', 'tl_class'=>'clr w50'),
+                    'sql'              => "int(10) unsigned NOT NULL default '0'"
                 ]
             ];
             $dca['fields'] = array_merge($fields, is_array($dca['fields']) ? $dca['fields'] : []);

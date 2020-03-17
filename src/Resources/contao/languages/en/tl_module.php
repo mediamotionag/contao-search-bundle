@@ -18,6 +18,8 @@ $lang['filterPages'][0]      = 'Pages for filter';
 $lang['filterPages'][1]      = 'Choose pages for excluding or restricting the search.';
 $lang['addPageDepth'][0]     = 'Activate page inheritance';
 $lang['addPageDepth'][1]     = 'Check if subpages should be included by the filter.';
+$lang['maxKeywordCount'][0]     = 'Maximum number of keywords';
+$lang['maxKeywordCount'][1]     = 'The maximum number of search terms. Set to 0 for no restriction.';
 
 /**
  * Legends
