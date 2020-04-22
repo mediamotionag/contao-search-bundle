@@ -1,0 +1,11 @@
+monolog:
+  channels: ['huh_search']
+  handlers:
+    main:
+      channels: ['!huh_search']
+    huh_search:
+      type: rotating_file
+      path: "%kernel.logs_dir%/huh_search.log"
+      level: debug
+      max_files: 3
+      channels: [huh_search]

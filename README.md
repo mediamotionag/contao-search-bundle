@@ -72,7 +72,7 @@ This option let you disable indexing page on every page visit. This is recommend
 
 > If you use contao 4.9 or higher, we recommend to use the [core implementation](https://docs.contao.org/dev/framework/search-indexing/) instead.
 
-This command let you build up your search index from console or a periodic cron job. This is especially useful, if you can't rebuild your search index from the contao backend.
+This command let you build up your search index from console or a periodic cron job. This is especially useful, if you can't rebuild your search index from the contao backend. Pages that could not be indexed are logged into an huh_search log file in your log folder.
 
 ```
 Usage:

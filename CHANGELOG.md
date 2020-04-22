@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.2.0] - 2020-04-22
+* added additional logging to search command
+* added custom User-Agent of index requests
+* fixed disabling search indexing 
+
 ## [2.1.0] - 2020-03-17
 * added option to set maximum keyword count
 

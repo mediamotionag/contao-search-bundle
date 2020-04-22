@@ -3,6 +3,7 @@ services:
     autowire: true
     bind:
       $packages: '%kernel.packages%'
+      $searchLogger: "@monolog.logger.huh_search"
 
   HeimrichHannot\SearchBundle\Command\RebuildSearchIndexCommand:
     tags: ['console.command']

@@ -21,7 +21,7 @@ use Contao\ManagerPlugin\Config\ConfigPluginInterface;
 use HeimrichHannot\SearchBundle\HeimrichHannotSearchBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 
-class Plugin implements BundlePluginInterface
+class Plugin implements BundlePluginInterface, ConfigPluginInterface
 {
 
     /**
@@ -36,5 +36,10 @@ class Plugin implements BundlePluginInterface
              ContaoCoreBundle::class
           ])
         ];
+    }
+
+    public function registerContainerConfiguration(LoaderInterface $loader, array $managerConfig)
+    {
+        $loader->load('@HeimrichHannotSearchBundle/Resources/config/config.yml');
     }
 }

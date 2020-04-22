@@ -23,6 +23,7 @@ use GuzzleHttp\Pool;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\RequestOptions;
+use Monolog\Logger;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -46,12 +47,17 @@ class RebuildSearchIndexCommand extends AbstractLockedCommand
      * @var bool
      */
     protected $dryRun = false;
+    /**
+     * @var Logger
+     */
+    private $searchLogger;
 
-    public function __construct(ContaoFrameworkInterface $framework, array $packages = [])
+    public function __construct(ContaoFrameworkInterface $framework, array $packages = [], Logger $searchLogger)
     {
         parent::__construct();
         $this->framework = $framework;
         $this->packages = $packages;
+        $this->searchLogger = $searchLogger;
     }
 
     protected function configure()
@@ -74,14 +80,15 @@ class RebuildSearchIndexCommand extends AbstractLockedCommand
 
         if (version_compare($this->packages['contao/core-bundle'], '4.9.0-RC1', '>=')) {
             $io->text("You are using contao version 4.9 or greater. Please use <fg=green>contao:crawl</> instead.");
+            $this->searchLogger->addNotice("Rebuild search index command is not supported for contao 4.9 and above.");
             $io->newLine();
             return 0;
         }
 
         if (!isset($this->packages['guzzlehttp/guzzle']) || substr($this->packages['guzzlehttp/guzzle'], 0, 1) !== '6') {
             $io->error("Guzzle HTTP client (guzzlehttp/guzzle) is not installed! Please consider the readme!");
-            return 0;
-
+            $this->searchLogger->addError("Guzzle HTTP client (guzzlehttp/guzzle) is not installed! Please consider the readme!");
+            return 1;
         }
 
         if ($input->hasOption('dry-run') && $input->getOption('dry-run')) {
@@ -101,6 +108,7 @@ class RebuildSearchIndexCommand extends AbstractLockedCommand
         if (empty($pages))
         {
             $io->error("No pages found.");
+            $this->searchLogger->addError("No searchable pages found.");
             return 1;
         }
 
@@ -121,7 +129,7 @@ class RebuildSearchIndexCommand extends AbstractLockedCommand
 
         $request = function ($pages) {
             foreach ($pages as $page) {
-                yield new Request('GET', $page);
+                yield new Request('GET', $page, ['User-Agent' => 'HeimrichHannotSearchBundle/2.1.1']);
             }
         };
         $io->text("Start the search indexer:");
@@ -151,6 +159,10 @@ class RebuildSearchIndexCommand extends AbstractLockedCommand
                 } else {
                     $progressBar->advance();
                 }
+                $this->searchLogger->addError($pages[$index], [
+                    "statuscode" => $reason->getCode(),
+                    "reason" => $reason->getResponse()->getReasonPhrase(),
+                ]);
                 $error++;
             },
             'options' => [

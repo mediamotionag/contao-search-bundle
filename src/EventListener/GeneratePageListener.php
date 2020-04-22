@@ -37,7 +37,7 @@ class GeneratePageListener
     public function onGeneratePage(PageModel $pageModel, LayoutModel $layout, PageRegular $pageRegular): void
     {
         if (isset($this->bundleConfig['disable_search_indexer']) && true === $this->bundleConfig['disable_search_indexer']) {
-            if (!Input::get(RebuildSearchIndexCommand::CRAWL_PAGE_PARAMETER) === '1') {
+            if (Input::get(RebuildSearchIndexCommand::CRAWL_PAGE_PARAMETER) !== '1') {
                 $pageModel->noSearch = '1;';
             }
         }
