@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.3.0] - 2020-05-29
+* added `valid_word_chars` option to configure keyword count method
+
 ## [2.2.0] - 2020-04-22
 * added additional logging to search command
 * added custom User-Agent of index requests

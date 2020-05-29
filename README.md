@@ -29,6 +29,7 @@ This bundle contains enhancements for Contao Search. You can enable or disable a
     ![Search engine module max keyword input](docs/images/screenshot_max_keywords.png)
     
 1. If you want to output a user notice if the max keyword count is exceeded, select `mod_search_searchbundle` module template or output `$this->maxKeywordsExceededMessage` template variable where you like.
+1. If you need to support a language with special letters like german umlauts, you can pass additional chars to the `huh_search.valid_word_chars` option to get a correct word count. By default, the german umlauts and eszett are preconfigured. Keep in mind, that you override the default value by setting this option (so you need to add them in your config if you want to support them).
 
 Example: 
 ```php
@@ -96,5 +97,9 @@ huh_search:
 
     # Configure whether you want to update the index entry on every request
     disable_search_indexer: false
+
+    # Set additional chars that should be not break a word (used for charlist parameter of str_word_count function).
+    valid_word_chars: ÄäÖöÜüẞß
+
 
 ```

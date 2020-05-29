@@ -33,6 +33,8 @@ class CustomizeSearchListener
      */
     private $disableMaxKeywordFilter = false;
 
+    protected $validWordChars = '';
+
     /**
      * CustomizeSearchListener constructor.
      * @param array $bundleConfig
@@ -46,6 +48,10 @@ class CustomizeSearchListener
         if (isset($bundleConfig['disable_max_keyword_filter']) && true === $bundleConfig['disable_max_keyword_filter'])
         {
             $this->disableMaxKeywordFilter = true;
+        }
+        if (isset($bundleConfig['valid_word_chars']) && !empty($bundleConfig['valid_word_chars']))
+        {
+            $this->validWordChars = $bundleConfig['valid_word_chars'];
         }
 
         $this->translator = $translator;
@@ -95,7 +101,7 @@ class CustomizeSearchListener
         if ($module->maxKeywordCount < 1 ) {
             return;
         }
-        $words = str_word_count($keywords, 2);
+        $words = str_word_count($keywords, 2, $this->validWordChars);
         if (is_array($words) && count($words) > $module->maxKeywordCount) {
             $indexes = array_keys($words);
             $keywords = substr($keywords, 0, ($indexes[$module->maxKeywordCount] - 1));

@@ -33,6 +33,7 @@ class Configuration implements ConfigurationInterface
                 ->booleanNode('enable_search_filter')->defaultTrue()->info("Enable or disable search filter for search module")->end()
                 ->booleanNode('disable_max_keyword_filter')->defaultFalse()->info("Enable or disable max keyword filter for search module")->end()
                 ->booleanNode('disable_search_indexer')->defaultFalse()->info("Configure whether you want to update the index entry on every request")->end()
+                ->scalarNode('valid_word_chars')->defaultValue('ÄäÖöÜüẞß')->info("Set additional chars that should be not break a word (used for charlist parameter of str_word_count function).")->end()
             ->end()
         ;
 
