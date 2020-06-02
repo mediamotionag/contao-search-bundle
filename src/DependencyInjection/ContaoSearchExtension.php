@@ -33,6 +33,7 @@ class ContaoSearchExtension extends Extension
         $container->setParameter('huh_search', $bundleConfig);
 
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader->load('services.yml');
         $loader->load('hooks.yml');
         $loader->load('commands.yml');
     }

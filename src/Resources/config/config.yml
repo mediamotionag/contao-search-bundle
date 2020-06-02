@@ -1,11 +1,18 @@
 monolog:
-  channels: ['huh_search']
+  channels: ['huh_search','huh_search_log']
   handlers:
     main:
-      channels: ['!huh_search']
+      channels: ['!huh_search','!huh_search_log']
     huh_search:
       type: rotating_file
       path: "%kernel.logs_dir%/huh_search.log"
       level: debug
       max_files: 3
       channels: [huh_search]
+    huh_search_log:
+      type: rotating_file
+      path: "%kernel.logs_dir%/huh_search_log.log"
+      level: debug
+      max_files: 7
+      channels: [huh_search_log]
+      formatter: monolog.formater.huh_searchlog

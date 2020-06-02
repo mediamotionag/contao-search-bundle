@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.4.0] - 2020-06-02
+- added BeforeGetSearchablePagesEvent to RebuildSearchIndexCommand
+- added option to log search terms
+
 ## [2.3.0] - 2020-05-29
 * added `valid_word_chars` option to configure keyword count method
 

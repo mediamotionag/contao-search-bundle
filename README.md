@@ -11,6 +11,7 @@ This bundle contains enhancements for Contao Search. You can enable or disable a
 * set maximum number of search terms
 * Page filter for search module
 * Related search content element
+* log search terms
 
 ## Usage
 
@@ -69,6 +70,10 @@ This option let you disable indexing page on every page visit. This is recommend
 1. Enable `huh_search.disable_search_indexer`
 1. We recommend to use this option combined with the `huh:search:index` command
 
+### Search keyword log
+
+To log search keywords, just set `huh_search.enable_search_log` to true. Afterwards you'll find `huh_search_log`-files withing your log folder containing a csv-formatted list of datetime and keyword. Maximum 7 days are stored (you can alter this period by customizing the monolog settings for huh_search_log channel).
+
 ## Search index command
 
 > If you use contao 4.9 or higher, we recommend to use the [core implementation](https://docs.contao.org/dev/framework/search-indexing/) instead.
@@ -84,6 +89,7 @@ Options:
       --concurrency[=CONCURRENCY]  Number of parallel requests [default: 5]
 ```
 
+
 ## Configuration
 
 ```yaml
@@ -98,8 +104,17 @@ huh_search:
     # Configure whether you want to update the index entry on every request
     disable_search_indexer: false
 
+    # Enable a search keyword logging.
+    enable_search_log:    false
+
     # Set additional chars that should be not break a word (used for charlist parameter of str_word_count function).
-    valid_word_chars: ÄäÖöÜüẞß
-
-
+    valid_word_chars:     ÄäÖöÜüẞß
 ```
+
+## Extend
+
+### Events
+
+Event | Description
+----- | -----------
+BeforeGetSearchablePagesEvent | Is triggered before a getSearchablePages hook entry is called in RebuildSearchIndexCommand. You'll be able to modifiy class, method, pages-Array or skip execution of current hook entry.

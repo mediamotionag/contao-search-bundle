@@ -1,0 +1,5 @@
+services:
+  monolog.formater.huh_searchlog:
+    class: Monolog\Formatter\LineFormatter
+    arguments:
+      - "%%datetime%%,\"%%message%%\"\n"

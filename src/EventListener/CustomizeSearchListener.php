@@ -16,6 +16,7 @@ use Contao\Database;
 use Contao\Module;
 use Contao\ModuleSearch;
 use Contao\StringUtil;
+use Monolog\Logger;
 use Symfony\Component\Translation\TranslatorInterface;
 
 class CustomizeSearchListener
@@ -35,11 +36,17 @@ class CustomizeSearchListener
 
     protected $validWordChars = '';
 
+    protected $enableSearchLog = false;
+    /**
+     * @var Logger
+     */
+    private $searchLogLogger;
+
     /**
      * CustomizeSearchListener constructor.
      * @param array $bundleConfig
      */
-    public function __construct(array $bundleConfig, TranslatorInterface $translator)
+    public function __construct(array $bundleConfig, TranslatorInterface $translator, Logger $searchLogLogger)
     {
         if (isset($bundleConfig['enable_search_filter']) && true === $bundleConfig['enable_search_filter'])
         {
@@ -53,8 +60,13 @@ class CustomizeSearchListener
         {
             $this->validWordChars = $bundleConfig['valid_word_chars'];
         }
+        if (isset($bundleConfig['enable_search_log']) && true === $bundleConfig['enable_search_log'])
+        {
+            $this->enableSearchLog = true;
+        }
 
         $this->translator = $translator;
+        $this->searchLogLogger = $searchLogLogger;
     }
 
     /**
@@ -66,12 +78,20 @@ class CustomizeSearchListener
      */
     public function onCustomizeSearch(array &$pageIds, string &$keywords, string $queryType, bool $fuzzy, Module $module): void
     {
+        if ($this->enableSearchLog) {
+            $this->logSearch($keywords);
+        }
         if ($this->enableFilterSearch) {
             $this->filterSearch($pageIds, $module);
         }
         if (!$this->disableMaxKeywordFilter) {
             $this->filterInput($keywords, $module);
         }
+    }
+
+    protected function logSearch(string $keywords)
+    {
+        $this->searchLogLogger->info($keywords);
     }
 
     protected function filterSearch(array &$pageIds, Module $module)

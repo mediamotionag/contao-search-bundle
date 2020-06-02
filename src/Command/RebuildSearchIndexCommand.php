@@ -23,12 +23,14 @@ use GuzzleHttp\Pool;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\RequestOptions;
+use HeimrichHannot\SearchBundle\Event\BeforeGetSearchablePagesEvent;
 use Monolog\Logger;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class RebuildSearchIndexCommand extends AbstractLockedCommand
 {
@@ -51,13 +53,18 @@ class RebuildSearchIndexCommand extends AbstractLockedCommand
      * @var Logger
      */
     private $searchLogger;
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
 
-    public function __construct(ContaoFrameworkInterface $framework, array $packages = [], Logger $searchLogger)
+    public function __construct(ContaoFrameworkInterface $framework, array $packages = [], Logger $searchLogger, EventDispatcherInterface $eventDispatcher)
     {
         parent::__construct();
         $this->framework = $framework;
         $this->packages = $packages;
         $this->searchLogger = $searchLogger;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     protected function configure()
@@ -132,6 +139,7 @@ class RebuildSearchIndexCommand extends AbstractLockedCommand
                 yield new Request('GET', $page, ['User-Agent' => 'HeimrichHannotSearchBundle/2.1.1']);
             }
         };
+        $io->newLine();
         $io->text("Start the search indexer:");
 
         $io->newLine();
@@ -194,9 +202,39 @@ class RebuildSearchIndexCommand extends AbstractLockedCommand
 
         if (isset($GLOBALS['TL_HOOKS']['getSearchablePages']) && \is_array($GLOBALS['TL_HOOKS']['getSearchablePages']))
         {
+            if ($io->isVeryVerbose()) {
+                $io->newLine();
+            }
             foreach ($GLOBALS['TL_HOOKS']['getSearchablePages'] as $callback)
             {
-                $pages = Controller::importStatic($callback[0])->{$callback[1]}($pages);
+                /** @var BeforeGetSearchablePagesEvent $event */
+                $event = $this->eventDispatcher->dispatch(BeforeGetSearchablePagesEvent::NAME, new BeforeGetSearchablePagesEvent($callback[0], $callback[1], $pages));
+
+                $pages = $event->getPages();
+                if (!$event->getExecuteHook()) {
+                    if ($io->isVeryVerbose()) {
+                        $io->text("Canceled executing ".$callback[0].'::'.$callback[1].'() by BeforeGetSearchablePagesEvent.');
+                    }
+                    continue;
+                }
+
+                if ($io->isVeryVerbose()) {
+                    $io->text('Executing '.$event->getClass().'::'.$event->getMethod().'()');
+                }
+                try {
+                    $pages = Controller::importStatic($event->getClass())->{$event->getMethod()}($pages);
+                } catch (\Exception $e) {
+                    $this->searchLogger->error($e->getMessage(), [
+                        'getSearchablePages hook entry' => $event->getClass().'::'.$event->getMethod().'()',
+                        'files' => $e->getFile(),
+                        'line' => $e->getLine(),
+                        'trace' => $e->getTraceAsString(),
+                    ]);
+                    throw $e;
+                }
+            }
+            if ($io->isVeryVerbose()) {
+                $io->newLine();
             }
         }
 

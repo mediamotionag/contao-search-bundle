@@ -4,6 +4,7 @@ services:
     autowire: true
     bind:
       $bundleConfig: '%huh_search%'
+      $searchLogLogger: "@monolog.logger.huh_search_log"
 
   HeimrichHannot\SearchBundle\EventListener\CustomizeSearchListener: ~
   HeimrichHannot\SearchBundle\EventListener\GeneratePageListener: ~
