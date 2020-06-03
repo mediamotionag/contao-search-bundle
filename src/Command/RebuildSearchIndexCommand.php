@@ -169,7 +169,7 @@ class RebuildSearchIndexCommand extends AbstractLockedCommand
                 }
                 $this->searchLogger->addError($pages[$index], [
                     "statuscode" => $reason->getCode(),
-                    "reason" => $reason->getResponse()->getReasonPhrase(),
+                    "reason" => $reason->hasResponse() ? $reason->getResponse()->getReasonPhrase() : $reason->getMessage(),
                 ]);
                 $error++;
             },

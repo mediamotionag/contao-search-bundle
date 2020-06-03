@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.4.1] - 2020-06-03
+- fixed exception when reject reason has no response
+
 ## [2.4.0] - 2020-06-02
 - added BeforeGetSearchablePagesEvent to RebuildSearchIndexCommand
 - added option to log search terms
