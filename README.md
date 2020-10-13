@@ -20,6 +20,7 @@ This bundle contains enhancements for Contao Search. You can enable or disable a
 
 1. Install composer bundle: `composer require heimrichhannot/contao-search-bundle`
 1. Optional: Install guzze HTTP client: `composer require guzzlehttp/guzzle` (needed for rebuild search index command)
+1. Optional: Install Smalot PdfParser: `"smalot/pdfparser": "^0.17"` (needed for pdf search)
 1. Enable/Disable features you want in your project config (see chapter configuration) and clear your cache
 1. Update your database
 
