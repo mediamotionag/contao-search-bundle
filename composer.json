@@ -6,7 +6,8 @@
   "require": {
     "php": "^7.1",
     "contao/core-bundle": "^4.4",
-    "heimrichhannot/contao-utils-bundle": "^2.134"
+    "heimrichhannot/contao-utils-bundle": "^2.134",
+    "smalot/pdfparser": "^0.17"
   },
   "autoload": {
     "psr-4": {

@@ -1,5 +1,12 @@
 services:
+  _defaults:
+    bind:
+      $bundleConfig: '%huh_search%'
+
   monolog.formater.huh_searchlog:
     class: Monolog\Formatter\LineFormatter
     arguments:
       - "%%datetime%%,\"%%message%%\"\n"
+
+  HeimrichHannot\SearchBundle\Indexer\PdfSearchIndexer:
+    autowire: true
