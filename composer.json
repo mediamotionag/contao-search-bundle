@@ -2,6 +2,7 @@
   "name": "heimrichhannot/contao-search-bundle",
   "type": "contao-bundle",
   "description": "This bundle contains enhancements for Contao Search.",
+  "keywords": ["contao", "search", "pdf"],
   "license": "LGPL-3.0-or-later",
   "require": {
     "php": "^7.1",

@@ -34,7 +34,7 @@ class Configuration implements ConfigurationInterface
                     ->info("Configure the pdf indexer.")
                     ->addDefaultsIfNotSet()
                     ->children()
-                        ->booleanNode('enabled')->defaultFalse()->end()
+                        ->booleanNode('enabled')->defaultFalse()->info("Enable pdf indexing for search.")->end()
                         ->integerNode('max_indexed_characters')->min(0)->defaultValue(2000)->info("Max characters to process and store from a pdf file. 0 means no limit.")->end()
                         ->integerNode('max_file_size')->min(0)->defaultValue(8096)->info("Maximum file size of a pdf that can be processed by the pdf parser to prevent memory overflow or process timeout. Specify in KiB. 0 means no limit. 1024KiB = 1MB.")->end()
 

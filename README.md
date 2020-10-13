@@ -6,6 +6,7 @@
 This bundle contains enhancements for Contao Search. You can enable or disable all functionality to pick up just the features you need.
 
 ## Features
+* pdf search
 * Rebuild search index command for contao versions before 4.9
 * Disable search index update on page visit
 * set maximum number of search terms
@@ -74,6 +75,24 @@ This option let you disable indexing page on every page visit. This is recommend
 
 To log search keywords, just set `huh_search.enable_search_log` to true. Afterwards you'll find `huh_search_log`-files withing your log folder containing a csv-formatted list of datetime and keyword. Maximum 7 days are stored (you can alter this period by customizing the monolog settings for huh_search_log channel).
 
+### Pdf search
+
+To enable pdf indexing for contao search, following steps are needed:
+
+1. Set `huh_search.pdf_indexer.enabled` to true
+    ```yaml
+   # config/config.yml (Contao 4.9) or app/Resources/config.yml (Contao 4.4)
+    huh_search:
+      pdf_indexer:
+        enabled: true
+    ```
+
+
+1. Add `"smalot/pdfparser": "^0.17"` as composer dependency
+1. Rebuild search index
+
+For more configuration options for the pdf indexer see the configuration reference.
+
 ## Search index command
 
 > If you use contao 4.9 or higher, we recommend to use the [core implementation](https://docs.contao.org/dev/framework/search-indexing/) instead.
@@ -92,8 +111,23 @@ Options:
 
 ## Configuration
 
+Complete configuration reference
+
 ```yaml
+# Default configuration for extension with alias: "huh_search"
 huh_search:
+
+    # Configure the pdf indexer.
+    pdf_indexer:
+
+        # Enable pdf indexing for search.
+        enabled:              false
+
+        # Max characters to process and store from a pdf file. 0 means no limit.
+        max_indexed_characters: 2000
+
+        # Maximum file size of a pdf that can be processed by the pdf parser to prevent memory overflow or process timeout. Specify in KiB. 0 means no limit. 1024KiB = 1MB.
+        max_file_size:        8096
 
     # Enable or disable search filter for search module
     enable_search_filter: true
@@ -109,6 +143,7 @@ huh_search:
 
     # Set additional chars that should be not break a word (used for charlist parameter of str_word_count function).
     valid_word_chars:     ÄäÖöÜüẞß
+
 ```
 
 ## Extend
@@ -118,3 +153,7 @@ huh_search:
 Event | Description
 ----- | -----------
 BeforeGetSearchablePagesEvent | Is triggered before a getSearchablePages hook entry is called in RebuildSearchIndexCommand. You'll be able to modifiy class, method, pages-Array or skip execution of current hook entry.
+
+## Acknowledgments
+
+The pdf search integration was sponsored by [fanthomas communications](https://fanthomas-communications.de/).
