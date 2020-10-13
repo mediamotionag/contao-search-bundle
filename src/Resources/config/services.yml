@@ -2,6 +2,7 @@ services:
   _defaults:
     bind:
       $bundleConfig: '%huh_search%'
+      $searchLogLogger: "@monolog.logger.huh_search_log"
 
   monolog.formater.huh_searchlog:
     class: Monolog\Formatter\LineFormatter
@@ -10,3 +11,8 @@ services:
 
   HeimrichHannot\SearchBundle\Indexer\PdfSearchIndexer:
     autowire: true
+
+  HeimrichHannot\SearchBundle\EventListener\:
+    resource: '../../EventListener/*'
+    autowire: true
+    public: true

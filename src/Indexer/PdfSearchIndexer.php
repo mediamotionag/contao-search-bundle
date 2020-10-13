@@ -22,6 +22,7 @@ use Contao\StringUtil;
 use Contao\System;
 use Doctrine\DBAL\Connection;
 use HeimrichHannot\UtilsBundle\String\StringUtil as HuhStringUtil;
+use Smalot\PdfParser\Parser;
 
 class PdfSearchIndexer
 {
@@ -139,18 +140,22 @@ class PdfSearchIndexer
             return;
         }
 
-        if (isset($this->bundleConfig['pdf_indexer']['max_file_size']) && $this->bundleConfig['pdf_indexer']['max_file_size'] > 0 && $this->bundleConfig['pdf_indexer']['max_file_size'] > $arrSet['filesize']) {
+        if (isset($this->bundleConfig['pdf_indexer']['max_file_size']) && $this->bundleConfig['pdf_indexer']['max_file_size'] > 0 && $this->bundleConfig['pdf_indexer']['max_file_size'] < $arrSet['filesize']) {
+            return;
+        }
+
+        if (!class_exists("Smalot\PdfParser\Parser")) {
+            trigger_error("Smalot\PdfParser\Parser is needed for pdf indexing.", E_USER_WARNING);
             return;
         }
 
         try {
             // parse only for the first occurrence
-            $parser     = new \Smalot\PdfParser\Parser();
+            $parser     = new Parser();
             $objPDF     = $parser->parseFile($strFile);
             $strContent = $objPDF->getText();
 
         } catch (\Exception $e) {
-            // Missing object refernce #...
             return;
         }
 

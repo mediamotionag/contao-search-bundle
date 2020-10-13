@@ -16,6 +16,7 @@ $GLOBALS['TL_HOOKS']['customizeSearch']['contao-search-bundle'] = [\HeimrichHann
 $GLOBALS['TL_HOOKS']['generatePage']['contao-search-bundle'] = [\HeimrichHannot\SearchBundle\EventListener\GeneratePageListener::class, 'onGeneratePage'];
 $GLOBALS['TL_HOOKS']['indexPage']['contao-search-bundle'] = [\HeimrichHannot\SearchBundle\EventListener\IndexPageListener::class, 'onIndexPage'];
 $GLOBALS['TL_HOOKS']['loadDataContainer']['contao-search-bundle'] = [\HeimrichHannot\SearchBundle\EventListener\LoadDataContainerListener::class, 'onLoadDataContainer'];
+$GLOBALS['TL_HOOKS']['getSystemMessages']['contao-search-bundle'] = [\HeimrichHannot\SearchBundle\EventListener\GetSystemMessagesListener::class, '__invoke'];
 
 /**
  * Content Elements
