@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.4.2] - 2021-01-28
+- made filterPages non-mandatory
+
 ## [2.4.1] - 2020-06-03
 - fixed exception when reject reason has no response
 

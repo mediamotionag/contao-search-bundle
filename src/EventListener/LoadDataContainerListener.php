@@ -81,7 +81,10 @@ class LoadDataContainerListener
                     'sql'       => "char(1) NOT NULL default '1'",
                 ]
             ];
+
             $dca['fields'] = array_merge($fields, is_array($dca['fields']) ? $dca['fields'] : []);
+
+            unset($dca['fields']['filterPages']['eval']['mandatory']);
         }
 
         if (!$this->disableMaxKeywordFilter) {
