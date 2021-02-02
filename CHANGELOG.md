@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.5.2] - 2021-02-02
+- allow smalot/pdfparser 0.18
+- add github issue template
+
 ## [2.5.1] - 2021-01-28
 - made filterPages non-mandatory
 
