@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.6.0] - 2021-03-12
+- raised minimum smalot/pdfparser version to 0.18.2
+
 ## [2.5.2] - 2021-02-02
 - allow smalot/pdfparser 0.18
 - add github issue template
