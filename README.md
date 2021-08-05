@@ -89,7 +89,7 @@ To enable pdf indexing for contao search, following steps are needed:
     ```
 
 
-1. Add `"smalot/pdfparser": "^0.17"` as composer dependency
+1. Add `"smalot/pdfparser": "^0.18"` as composer dependency
 1. Rebuild search index
 
 For more configuration options for the pdf indexer see the configuration reference.
