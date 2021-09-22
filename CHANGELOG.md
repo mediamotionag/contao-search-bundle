@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] - 2021-09-22
+- Changed: added patchwork/utf dependency
+- Fixed: exception when indexing a pdf not working (will only show up in dev mode)
+- Fixed: incorrect encoded pdf file content not lead to error on indexing
+- Fixed: missing symfony dependencies
+
 ## [2.6.0] - 2021-03-12
 - raised minimum smalot/pdfparser version to 0.18.2
 

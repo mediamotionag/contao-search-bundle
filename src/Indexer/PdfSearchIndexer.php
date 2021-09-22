@@ -21,7 +21,9 @@ use Contao\Search;
 use Contao\StringUtil;
 use Contao\System;
 use Doctrine\DBAL\Connection;
+use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\String\StringUtil as HuhStringUtil;
+use Patchwork\Utf8;
 use Smalot\PdfParser\Parser;
 
 class PdfSearchIndexer
@@ -42,15 +44,20 @@ class PdfSearchIndexer
      * @var array
      */
     protected $bundleConfig;
+    /**
+     * @var ContainerUtil
+     */
+    protected $containerUtil;
 
     /**
      * PdfSearchIndexer constructor.
      */
-    public function __construct(ContaoFramework $framework, Connection $connection, array $bundleConfig)
+    public function __construct(ContaoFramework $framework, Connection $connection, array $bundleConfig, ContainerUtil $containerUtil)
     {
         $this->framework = $framework;
         $this->connection = $connection;
         $this->bundleConfig = $bundleConfig;
+        $this->containerUtil = $containerUtil;
     }
 
     public function indexPdfFiles(array $links, $arrParentSet)
@@ -159,6 +166,10 @@ class PdfSearchIndexer
             return;
         }
 
+        if (!Utf8::isUtf8($strContent)) {
+            $strContent = Utf8::utf8_encode($strContent);
+        }
+
         // Put everything together
         $strContent = trim(preg_replace('/ +/', ' ', StringUtil::decodeEntities($strContent)));
 
@@ -178,7 +189,9 @@ class PdfSearchIndexer
         try {
             $search->indexPage($arrSet);
         } catch (\Throwable $t) {
-            throw new \Exception("Could not add a search index entry: ".$t->getMessage());
+            if ($this->containerUtil->isDev()) {
+                throw new \Exception("Could not add a search index entry: ".$t->getMessage());
+            }
         }
     }
 
