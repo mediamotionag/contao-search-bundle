@@ -165,7 +165,7 @@ class PdfSearchIndexer
             return;
         }
 
-        if (false === mb_detect_encoding($strContent, null, true)) {
+        if (false === mb_detect_encoding($strContent, 'UTF-8', true)) {
             $strContent = $this->fixUtf8Encoding([$strContent]);
         }
 
