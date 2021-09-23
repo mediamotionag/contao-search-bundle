@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.7.1] - 2021-09-23
+- Fixed: bundle not installable within symfony 3.4 due symfony/translation dependency (remove this dependency to fix this)
+
 ## [2.7.0] - 2021-09-23
 - Changed: invalid characters from pdf files are converted to utf-8
 - Changed: added support for symfony/config:^5.0
