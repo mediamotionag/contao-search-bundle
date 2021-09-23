@@ -21,6 +21,7 @@ use Contao\Search;
 use Contao\StringUtil;
 use Contao\System;
 use Doctrine\DBAL\Connection;
+use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
 use HeimrichHannot\UtilsBundle\String\StringUtil as HuhStringUtil;
 use Smalot\PdfParser\Parser;
 
@@ -42,15 +43,20 @@ class PdfSearchIndexer
      * @var array
      */
     protected $bundleConfig;
+    /**
+     * @var ContainerUtil
+     */
+    protected $containerUtil;
 
     /**
      * PdfSearchIndexer constructor.
      */
-    public function __construct(ContaoFramework $framework, Connection $connection, array $bundleConfig)
+    public function __construct(ContaoFramework $framework, Connection $connection, array $bundleConfig, ContainerUtil $containerUtil)
     {
-        $this->framework = $framework;
-        $this->connection = $connection;
-        $this->bundleConfig = $bundleConfig;
+        $this->framework     = $framework;
+        $this->connection    = $connection;
+        $this->bundleConfig  = $bundleConfig;
+        $this->containerUtil = $containerUtil;
     }
 
     public function indexPdfFiles(array $links, $arrParentSet)
@@ -159,6 +165,10 @@ class PdfSearchIndexer
             return;
         }
 
+        if (false === mb_detect_encoding($strContent, 'UTF-8', true)) {
+            $strContent = $this->fixUtf8Encoding([$strContent]);
+        }
+
         // Put everything together
         $strContent = trim(preg_replace('/ +/', ' ', StringUtil::decodeEntities($strContent)));
 
@@ -178,7 +188,9 @@ class PdfSearchIndexer
         try {
             $search->indexPage($arrSet);
         } catch (\Throwable $t) {
-            throw new \Exception("Could not add a search index entry: ".$t->getMessage());
+            if ($this->containerUtil->isDev()) {
+                throw new \Exception("Could not add a search index entry: " . $t->getMessage());
+            }
         }
     }
 
@@ -188,11 +200,39 @@ class PdfSearchIndexer
      */
     public function isValidPDF($objFile)
     {
-        if($objFile->mime != $GLOBALS['TL_MIME']['pdf'][0])
-        {
+        if ($objFile->mime != $GLOBALS['TL_MIME']['pdf'][0]) {
             return false;
         }
 
         return true;
+    }
+
+    /**
+     * Fix utf 8 encoding of pdf content
+     *
+     * @param array $chunks
+     * @param string $content
+     * @return string
+     */
+    private function fixUtf8Encoding(array $chunks, string $content = ''): string
+    {
+        foreach ($chunks as $chunk) {
+            $textLength = strlen($chunk);
+            if ($textLength > 1000) {
+                $chunksize = (int)ceil($textLength / 1000);
+                $parts = mb_str_split($chunk, $chunksize);
+                $content .= $this->fixUtf8Encoding($parts, $content);
+            } else {
+                if (false === mb_detect_encoding($chunk, 'UTF-8', true)) {
+                    $chars = mb_str_split($chunk);
+                    foreach ($chars as $char) {
+                        $content .= (false === mb_detect_encoding($char, 'UTF-8') ? utf8_encode($char) : $char);
+                    }
+                } else {
+                    $content .= $chunk;
+                }
+            }
+        }
+        return $content;
     }
 }
