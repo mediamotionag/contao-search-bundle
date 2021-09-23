@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased] - 2021-09-23
+## [2.7.0] - 2021-09-23
 - Changed: invalid characters from pdf files are converted to utf-8
 - Changed: added support for symfony/config:^5.0
 - Fixed: exception when indexing a pdf not working (will now only show up in dev mode)
