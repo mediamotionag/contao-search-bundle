@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.7.2] - 2021-09-24
+- Fixed: usage of php 7.4-only method
+
 ## [2.7.1] - 2021-09-23
 - Fixed: bundle not installable within symfony 3.4 due symfony/translation dependency (remove this dependency to fix this)
 

@@ -220,11 +220,11 @@ class PdfSearchIndexer
             $textLength = strlen($chunk);
             if ($textLength > 1000) {
                 $chunksize = (int)ceil($textLength / 1000);
-                $parts = mb_str_split($chunk, $chunksize);
+                $parts = \str_split($chunk, $chunksize);
                 $content .= $this->fixUtf8Encoding($parts, $content);
             } else {
                 if (false === mb_detect_encoding($chunk, 'UTF-8', true)) {
-                    $chars = mb_str_split($chunk);
+                    $chars = \str_split($chunk);
                     foreach ($chars as $char) {
                         $content .= (false === mb_detect_encoding($char, 'UTF-8') ? utf8_encode($char) : $char);
                     }
