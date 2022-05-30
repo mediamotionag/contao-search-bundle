@@ -11,7 +11,8 @@
     "symfony/config": "^5.0",
     "symfony/console": "^5.0",
     "symfony/event-dispatcher": "^5.0",
-    "symfony/http-kernel": "^5.0"
+    "symfony/http-kernel": "^5.0",
+    "symfony/translation": "^5.0"
   },
   "conflict": {
     "smalot/pdfparser": "<0.18.2"
